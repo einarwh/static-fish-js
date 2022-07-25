@@ -18,10 +18,22 @@ let toss = (picture) => {
   };
 };
 
-let aboveRatio = (m, n, p1, p2) => {
+let belowRatio = (m, n, p1, p2) => {
   return (lens) => {
     let f = m / (m + n);
-    let [top, bot] = lens.splitVertically(f);
+    let [bot, top] = lens.splitVertically(f);
+    return p1(bot).concat(p2(top));
+  };
+};
+
+let below = (p1, p2) => {
+  return belowRatio(1, 1, p1, p2);
+};
+
+let aboveRatio = (m, n, p1, p2) => {
+  return (lens) => {
+    let f = n / (m + n);
+    let [bot, top] = lens.splitVertically(f);
     return p1(top).concat(p2(bot));
   };
 };
@@ -232,3 +244,23 @@ let squareLimitColor = (n, p) => {
     let mm = utileColor1(p);
     return nonet(nw, nm, ne, mw, mm, me, sw, sm, se);
 };
+
+let range = (start, end) => {
+  return new Array(end - start).fill().map((_, i) => i + start);
+};
+
+let crowd = (count, depth, p) => {
+  let numbers = range(count, count + depth);
+  let proportions = numbers.map(n => 1/n);
+  return (lens) => {
+    console.log("here");
+    let lenses = lens.splitVerticallyMany(proportions);
+    let shapes = [];
+    for (let i = 0; i < numbers.length; i++) {
+      let n = numbers[i];
+      let r = row.apply(null, Array(n).fill(p));
+      shapes = shapes.concat(r(lenses[i]));
+    }
+    return shapes;
+  };
+}

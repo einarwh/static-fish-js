@@ -5,7 +5,7 @@ function createSvg() {
     svgElement.setAttribute("height", "600");
     
     let a = createVector(100, 100);
-    let b = createVector(400, 0);
+    let b = createVector(280, 0);
     let c = createVector(0, 400);
     let box = createBox(a, b, c);
     
@@ -20,10 +20,14 @@ function createSvg() {
     let fish3Pict = createPicture(fancyFish());
     let henderson = nonet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
     let georgePict = createPicture(george());
+    let manPict = createPicture(man());
+    
     //let rendering = column(row(hPict, ePict, nPict), row(dPict, ePict, rPict), row(sPict, oPict, nPict))(box);
     let hue = createHue("black");
     let lens = createLens(box, hue);
-    let rendering = squareLimitColor(4, fish3Pict)(lens);
+    let pict = aboveRatio(2, 1, hPict, ePict);
+    //let foo = column(hPict, hPict, hPict);
+    let rendering = crowd(5, 10, manPict)(lens);
     //let rendering = henderson(lens);
 
     let mirrored = mirrorShapes(600, rendering);

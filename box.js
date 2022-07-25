@@ -18,9 +18,20 @@ let createBox = (a, b, c) => {
     scaleHorizontally: (f) => createBox(a, b.scale(f), c),
     splitVertically: (f) => {
       let g = 1.0 - f;
-      let top = createBox(a, b, c).moveVertically(g).scaleVertically(f);
-      let bot = createBox(a, b, c).scaleVertically(g);
-      return [top, bot];
+      let bot = createBox(a, b, c).scaleVertically(f);
+      let top = createBox(a, b, c).moveVertically(f).scaleVertically(g);
+      return [bot, top];
+    },
+    splitVerticallyMany: (fs) => {
+      const array = [];
+      let box = createBox(a, b, c);
+      let moved = 0;
+      for (let f of fs) {
+        let current = box.moveVertically(moved).scaleVertically(f);
+        moved = moved + f;
+        array.push(current);
+      }
+      return array;
     },
     splitHorizontally: (f) => {
       let g = 1.0 - f;
