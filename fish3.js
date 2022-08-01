@@ -34,9 +34,24 @@ let getHighlightStyle = (lens) => {
 };
 
 let getStyle = (lens) => {
-  return {
-    'fill': lens.hue.color
-  };
+  const allowOutline = true;
+  let box = lens.box;
+  let color = lens.hue.color;
+  let s = Math.max(box.b().len(), box.c().len());
+  if (allowOutline && s >= 100) { 
+    let sw = s / 160.0;
+    let sc = color == 'white' ? 'grey' : color;
+    return {
+      'stroke': sc,
+      'stroke-width': sw,
+      'fill': color
+    };
+  }
+  else {
+    return {
+      'fill': color
+    };
+  } 
 };
 
 let fancyFish = () => {

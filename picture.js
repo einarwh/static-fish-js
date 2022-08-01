@@ -263,4 +263,44 @@ let crowd = (count, depth, p) => {
     }
     return shapes;
   };
-}
+};
+
+let inverseCorner = (n, p) => {
+  if (n == 0) {
+      return blank;
+    } else {
+      let nw = over(p, turn(turn(p)));
+      let ne = turn(turn(turn(ttile(p))));
+      let sw = ne;
+      let se = inverseCorner(n - 1, p);
+      return quartet(nw, ne, sw, se);
+    };  
+};
+
+let inverseCornerColor = (n, p) => {
+  if (n == 0) {
+      return blank;
+    } else {
+      let nw = over(p, rehue(turn(turn(p))));
+      let ne = rehue(rehue(turn(turn(turn(ttileColor2(p))))));
+      let sw = ne;
+      let se = inverseCornerColor(n - 1, p);
+      return quartet(nw, ne, sw, se);
+    };  
+};
+
+let inverseLimit = (n, p) => {
+  let nw = inverseCorner(n, p);
+  let sw = turn(nw);
+  let se = turn(sw);
+  let ne = turn(se);
+  return quartet(nw, ne, sw, se);
+};
+
+let inverseLimitColor = (n, p) => {
+  let nw = inverseCornerColor(n, p);
+  let sw = turn(nw);
+  let se = turn(sw);
+  let ne = turn(se);
+  return quartet(nw, ne, sw, se);
+};
